@@ -10,12 +10,12 @@ const {
   getRoomUsers
 } = require('./utils/users');
 
-const app = express();
-const server = http.createServer(app);
-const io = socketio(server);
+const express_app = express();
+const app = http.createServer(express_app);
+const io = socketio(app);
 
 // Set static folder
-app.use(express.static(path.join(__dirname, 'public')));
+express_app.use(express.static(path.join(__dirname, 'public')));
 
 const botName = 'ChatCord Bot';
 
@@ -72,4 +72,10 @@ io.on('connection', socket => {
 
 const PORT = process.env.PORT || 3000;
 
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+express_app.get("/",function(req,res)
+{
+  res.send("It worked");
+})
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
